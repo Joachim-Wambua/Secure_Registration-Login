@@ -51,11 +51,16 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         $email_err = 'Enter a Valid Email Address';
     }
 
+    $uppercase = preg_match('@[A-Z]@', $_POST["password"]);
+    $lowercase = preg_match('@[a-z]@', $_POST["password"]);
+    $number    = preg_match('@[0-9]@', $_POST["password"]);
+    $specialChars = preg_match('@[^\w]@', $_POST["password"]);
+
     // Validate password
     if(empty(trim($_POST["password"]))){
         $password_err = "Enter a password.";     
-    } elseif(strlen(trim($_POST["password"])) < 6){
-        $password_err = "Password must have atleast 6 characters.";
+    } elseif(strlen(trim($_POST["password"])) < 6 || !$uppercase || !$lowercase || !$number || !$specialChars){
+        $password_err = "Password must have atleast 6 characters. It should also include at least one upper case letter, one number, and one special character.";
     } else{
         $password = trim($_POST["password"]);
     }
@@ -115,7 +120,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     </style>
 </head>
 <body>
-
+0
 <!-- navgation menu start  -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <a class="navbar-brand" href="#" style="font-size:30px;"><strong>Online Library</strong></a>
